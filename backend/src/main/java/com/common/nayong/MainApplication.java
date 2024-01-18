@@ -13,7 +13,6 @@ import org.springframework.context.annotation.PropertySources;
         @PropertySource("/database/application-${database.custom.type}.properties"),
 })
 public class MainApplication {
-
     public static void main(String[] args) {
         Log.addAppender(new SystemAppender());
         SpringApplication.run(MainApplication.class, args);
