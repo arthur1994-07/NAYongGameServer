@@ -4,6 +4,7 @@ import com.common.core.base.helper.ExceptionHelper;
 import com.common.core.base.helper.StringHelper;
 import com.common.core.base.log.Log;
 import com.common.core.web.security.jwt.HttpJwtHelper;
+import com.common.core.web.security.jwt.JwtParser;
 import com.common.nayong.model.UserModel;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,15 +48,17 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             }
         });
         if (StringHelper.isNullOrEmpty(token)) return;
+        var uncheckedData = JwtParser.deserialize(token);
 
-        var data = HttpJwtHelper.valid(token, mSigner.getReadSigners());
-        if (data == null) return;
+        if (HttpJwtHelper.K_AUDIENCE.equals(uncheckedData.audience)) {
+            var data = HttpJwtHelper.valid(token, mSigner.getReadSigners());
+            if (data == null) return;
 
-        var authUser = new UserModel(Long.parseLong(data.subject), data.claimsLoader);
+            var authUser = new UserModel(Long.parseLong(data.subject), data.claimsLoader);
 
-        var auth = new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
-        auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
+            var auth = new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
+            auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        }
     }
 }
