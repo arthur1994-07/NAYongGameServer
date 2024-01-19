@@ -15,7 +15,8 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "GSUserInfo", schema = "dbo")
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "GSUserInfo", sequenceName = "z_gs_userinfo", initialValue = 1, allocationSize = 1)
     @Column(name = "UserNum", unique = true)
     private int userNum;
 
