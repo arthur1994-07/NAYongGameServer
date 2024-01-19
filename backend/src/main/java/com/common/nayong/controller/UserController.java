@@ -15,7 +15,25 @@ public class UserController {
         public int id;
     }
 
+    public static class CreateRequest {
+        public String username;
+        public String password;
+        public String email;
+    }
+
     @Autowired private UserService mService;
+
+    @PostMapping(value = "/public/add")
+    public ResponseEntity<JsonRespond<Void>> create(@RequestBody CreateRequest request) throws Throwable {
+        mService.create(request.username, request.password, request.email);
+        return ResponseEntity.ok(new JsonRespond<>(null));
+    }
+
+    @PostMapping(value = "/public/delete")
+    public ResponseEntity<JsonRespond<Void>> remove(@RequestBody IDRequest request) throws Throwable {
+        mService.remove(request.id);
+        return ResponseEntity.ok(new JsonRespond<>(null));
+    }
 
     @PostMapping(value = "/public/list")
     public ResponseEntity<JsonRespond<UserInfo.Data[]>> list() throws Throwable {
