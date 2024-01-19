@@ -1,9 +1,16 @@
 package com.common.nayong.Entity;
 
 
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+@Setter
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "GSUserInfo", schema = "dbo")
 public class UserEntity {
@@ -27,14 +34,4 @@ public class UserEntity {
     @NotBlank
     private String userEmail;
 
-    public int getUserNum() { return this.userNum; }
-
-    public String getUserID() { return this.userID; }
-    public void setUserID(String userId) { this.userID = userId; }
-
-    public String getUserEmail() { return this.userEmail; }
-    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
-
-    public int getUserType() { return this.userType; }
-    public void setUserType(int userType) { this.userType = userType; }
 }
