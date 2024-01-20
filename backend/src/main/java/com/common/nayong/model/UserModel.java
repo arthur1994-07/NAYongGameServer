@@ -2,6 +2,7 @@ package com.common.nayong.model;
 
 import com.common.core.base.helper.JsonHelper;
 import com.common.core.web.security.base.ClaimsInterface;
+import com.common.nayong.Entity.UserEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -58,6 +59,12 @@ public class UserModel {
     public UserModel(Long id, Consumer<ClaimsInterface> claimsApply) {
         mId = id;
         Arrays.stream(getClaims()).forEach(claimsApply);
+    }
+
+    public UserModel(UserEntity entity) {
+        mId = entity.getUserNum();
+        mIdentity.username = entity.getUserID();
+        mIdentity.email = entity.getUserEmail();
     }
 
     public long getId() { return mId; }
