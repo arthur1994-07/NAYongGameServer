@@ -20,7 +20,7 @@ public class UserService {
 
     @Retryable(value = {LockAcquisitionException.class }, maxAttemptsExpression = "${retry.maxAttempts}",
             backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
-    @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public void create(String username, String password, String email) throws Exception {
         if (username == null) throw new Exception("invalid username");
         if (password == null) throw new Exception("password is required");
@@ -32,7 +32,7 @@ public class UserService {
 
     @Retryable(value = {LockAcquisitionException.class }, maxAttemptsExpression = "${retry.maxAttempts}",
             backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
-    @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
+    @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public void remove(int id) throws Exception {
         if (id < 0) throw new Exception("Invalid user id");
         var entity = mUserRepository.findById(id).orElseThrow(() -> new Exception("user not found"));
