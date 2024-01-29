@@ -10,8 +10,7 @@ const port = production ? (httpType == "http:" ? 6666 : 8443) : 6666
 let config = {
 	$api_url: `${httpType}//${hostname}:${port}`,
 	$prefix_base: prefix_base,
-    $redirect_host: `${httpType}//${window.location.host}`,
-	$prefix_base: prefix_base,
+	$redirect_host: `${httpType}//${window.location.host}`,
 }
 
 
