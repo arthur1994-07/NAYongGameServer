@@ -1,7 +1,7 @@
 'use strict'
 
 import { resolveFullPath, getRouteTree, getRouteList } from '../core/RouteTree.js'
-import * as PermissionType from '../enums/PermissionType.js'
+// import * as PermissionType from '../enums/PermissionType.js'
 
 // group property
 const _settingsGrp = 'settings'
@@ -18,34 +18,52 @@ const _userGrp = 'user'
 
 
 const createSettingGroup = () => ({
-    title: "Settings",
-    key: _settingsGrp,
-    order: 1
+	title: "Settings",
+	key: _settingsGrp,
+	order: 1
 })
 
 const createUserGroup = () => ({
-    title: "User",
-    key: _userGrp,
-    order: 2
+	title: "User",
+	key: _userGrp,
+	order: 2
 })
 
 // page property
 
+const createNotFoundView = () => ({
+	path: "/:catchAll(.*)",
+	name: "not-found",
+	component: () => import('../../views/NotFoundView.vue'),
+	meta: { bypassAuth: true, }
+})
+
 const createPortalView = (groups, children) => ({
-    path: "/",
-    name: "portal",
-    component: () => import("../../views/PortalView.vue"),
-    meta : { groups: groups.filter(s => s != null ), },
-    children: children.filter(s => s != null),
+	path: "/",
+	name: "portal",
+	component: () => import("../../views/PortalView.vue"),
+	meta : { groups: groups.filter(s => s != null ), },
+	children: children.filter(s => s != null),
 })
 
 const createHomeView = () => ({
-    path: "/home",
-    name: "home",
-    component: () => import('../../views/HomeView.vue'),
-    meta: { bypassAuth: true }
+	path: "/home",
+	name: "home",
+	component: () => import('../../views/HomeView.vue'),
+	meta: { bypassAuth: true }
 })
 
 const treeItems = [
-    
-]
+	createNotFoundView(),
+	createPortalView([
+		createUserGroup(),
+		createSettingGroup(),
+	], [
+		createHomeView(),
+	]),
+].filter(s => s != null);
+
+resolveFullPath(treeItems)
+
+export const routeList = getRouteList(treeItems)
+export const routeTree = getRouteTree(treeItems)
