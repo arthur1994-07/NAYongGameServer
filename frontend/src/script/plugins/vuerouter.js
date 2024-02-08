@@ -14,7 +14,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
 	if (!to.meta.bypassAuth && !auth.authenticated())  {
 		auth.signOut()
-		next({path: '/home'}) // route to home page
+		next({path: '/'}) // route to home page
 		return
 	}
 	next() // make sure to always call next()!
