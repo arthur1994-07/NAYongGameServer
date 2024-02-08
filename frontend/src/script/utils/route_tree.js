@@ -3,13 +3,7 @@
 import { resolveFullPath, getRouteTree, getRouteList } from '../core/RouteTree.js'
 // import * as PermissionType from '../enums/PermissionType.js'
 
-// group property
-const _settingsGrp = 'settings'
-// change password
-// change email
-// forget password 
-
-const _userGrp = 'user'
+const _layout = 'layout'
 // cuurent user info
 // change char name
 // change school
@@ -17,16 +11,10 @@ const _userGrp = 'user'
 // change user type
 
 
-const createSettingGroup = () => ({
-	title: "Settings",
-	key: _settingsGrp,
+const createLayoutGroup = () => ({
+	title: "Main-Layout",
+	key: _layout,
 	order: 1
-})
-
-const createUserGroup = () => ({
-	title: "User",
-	key: _userGrp,
-	order: 2
 })
 
 // page property
@@ -53,13 +41,31 @@ const createHomeView = () => ({
 	meta: { bypassAuth: true }
 })
 
+const createRankingView = () => ({
+	path: "/ranking",
+	name: "ranking",
+	component: () => import('../../views/RankingView.vue'),
+	meta: { bypassAuth: true }
+})
+
+const createDownloadView = () => ({
+	path: "/download",
+	name: "download",
+	component: () => import('../../views/DownloadView.vue'),
+	meta: { bypassAuth: true }
+})
+
+const create
+
 const treeItems = [
 	createNotFoundView(),
 	createPortalView([
-		createUserGroup(),
-		createSettingGroup(),
+		createLayoutGroup(),
 	], [
 		createHomeView(),
+		createRankingView(),
+		createDownloadView(),
+		
 	]),
 ].filter(s => s != null);
 
