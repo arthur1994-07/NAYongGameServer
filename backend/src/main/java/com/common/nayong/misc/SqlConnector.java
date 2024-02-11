@@ -1,11 +1,13 @@
 package com.common.nayong.misc;
 
 import com.common.core.base.log.Log;
+import com.paypal.api.payments.Payment;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import com.paypal.api.*;
 
 @Component
 public class SqlConnector {
@@ -26,5 +28,10 @@ public class SqlConnector {
         } catch (SQLException e) {
             Log.e(e.getMessage());
         }
+    }
+
+    public Payment createPayment() {
+        var payment = new Payment();
+        return null;
     }
 }
