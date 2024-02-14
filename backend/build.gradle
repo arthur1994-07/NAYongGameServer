@@ -50,7 +50,7 @@ dependencies {
 
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
-    compileOnly 'com.paypal.sdk:rest-api-sdk:+'
+    implementation 'com.paypal.sdk:rest-api-sdk:+'
     compileOnly 'org.projectlombok:lombok'
 
     annotationProcessor 'org.projectlombok:lombok'

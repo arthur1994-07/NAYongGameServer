@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import com.paypal.api.*;
 
 @Component
 public class SqlConnector {
