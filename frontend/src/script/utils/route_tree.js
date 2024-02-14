@@ -55,7 +55,6 @@ const createDownloadView = () => ({
 	meta: { bypassAuth: true }
 })
 
-const create
 
 const treeItems = [
 	createNotFoundView(),

@@ -1,5 +1,11 @@
 <template>
-	<div>NA YONG</div>
+	<q-page class="q-pa-sm">
+		<q-card-section>
+			<div class="text-white text-h3">NA Yong</div>
+		</q-card-section>
+	</q-page>
+	<div>
+	</div>
 </template>
 
 <script>
