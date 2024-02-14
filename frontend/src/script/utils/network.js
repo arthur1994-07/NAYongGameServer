@@ -100,6 +100,10 @@ export const post = async (url, request, headers = null, specific) => {
 	return await network.post(url, request, headers, specific)
 }
 
+export const postWithHeader = async (url, request, headers, specific) => {
+	return await network.post(url, request, headers, specific)
+}
+
 export const postWithNoAuth = async (url, request) => {
 	return await post(url, request, null, { noAuth : true })
 }

@@ -13,13 +13,13 @@
 		</q-header>
 		<q-page-container>
 			<q-page class="home-page window-height window-width row justify-center items-top">
-				<div class="row items-start justify-top">
-					<q-card class="bg-secondary" style="width: 80pc">
-						<q-img :src="gameBanner" fit="contain" class="q-ma-xs" />
-					</q-card>
+				<q-card class="bg-secondary" style="width: 80pc">
+					<q-img :src="gameBanner" fit="contain" class="q-ma-xs" />
+				</q-card>
+				<div class="col-6 items-start justify-top">
+					<router-view /> 
 				</div>
 			</q-page>
-			<router-view /> 
 		</q-page-container>
 	</q-layout>
 </template>
@@ -38,7 +38,6 @@ export default defineComponent({
 		const gameLogo = ref(new URL('../assets/yong-icon.png', import.meta.url).href)
 		const gameBanner = ref(new URL('../assets/banner3.png', import.meta.url).href)
 		const headerColor = ref('defaultMode')
-
 
 
 		const login = () => {
