@@ -1,5 +1,9 @@
 <template>
-	<div>Ranking</div>
+	<q-page class="q-pa-sm">
+		<q-card-section>
+			<div class="text-white text-h3">Ranking</div>
+		</q-card-section>
+	</q-page>
 </template>
 
 <script>
