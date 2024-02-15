@@ -35,26 +35,52 @@ const createPortalView = (groups, children) => ({
 })
 
 const createHomeView = () => ({
-	path: "/home",
+	path: "home",
 	name: "home",
 	component: () => import('../../views/HomeView.vue'),
-	meta: { bypassAuth: true }
+	meta: { 
+		bypassAuth: true,
+		title: "Home",
+		group: _layout,
+		order: 1
+	}
 })
 
 const createRankingView = () => ({
-	path: "/ranking",
+	path: "ranking",
 	name: "ranking",
 	component: () => import('../../views/RankingView.vue'),
-	meta: { bypassAuth: true }
+	meta: { 
+		bypassAuth: true,
+		title: "Ranking",
+		group: _layout,
+		order: 2
+	}
 })
 
 const createDownloadView = () => ({
-	path: "/download",
+	path: "download",
 	name: "download",
 	component: () => import('../../views/DownloadView.vue'),
-	meta: { bypassAuth: true }
+	meta: { 
+		bypassAuth: true,
+		title: "Download",
+		group: _layout,
+		order: 3
+	}
 })
 
+const createMarketView = () => ({
+	path: "market",
+	name: "market",
+	component: () => import('../../views/MarketView.vue'),
+	meta: { 
+		bypassAuth: true,
+		title: "Market",
+		group: _layout,
+		order: 4
+	}
+})
 
 const treeItems = [
 	createNotFoundView(),
@@ -64,6 +90,7 @@ const treeItems = [
 		createHomeView(),
 		createRankingView(),
 		createDownloadView(),
+		createMarketView(),
 		
 	]),
 ].filter(s => s != null);

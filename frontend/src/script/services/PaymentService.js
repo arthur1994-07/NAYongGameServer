@@ -3,7 +3,7 @@
 import { post, postWithHeader } from "../utils/network"
 
 const _baseUrl = "/payment"
-const _getTokenUrl = ""
+const _getTokenUrl = "https://api-m.sandbox.paypal.com/v1/oauth2/token"
 
 const getToken = async (request, loginInfo) => {
     const response = await postWithHeader(_getTokenUrl, { loginInfo }, request)
