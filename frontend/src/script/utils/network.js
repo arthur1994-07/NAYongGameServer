@@ -35,7 +35,7 @@ const tokenHandler = () => {
 			accessToken = token
 			tokenExpiration = expiration
 		},
-		refreshAccessToken: async () => await auth.refreshAccessToken(),
+		// refreshAccessToken: async () => await auth.refreshAccessToken(),
 	}
 }
 
@@ -69,7 +69,7 @@ const networkModule = (url, tokenHandler) => {
 			let tokenData = tokenHandler?.getToken()
 			if (!specific?.noAuth && !specific?.noRefresh && tokenData?.token != null &&
 				tokenData?.expiration.getTime() < new Date().getTime() + _expiredSecond * 1000) {
-				await tokenHandler.refreshAccessToken()
+				// await tokenHandler.refreshAccessToken()
 			}
 	
 			if (headers == null) headers = {}
@@ -100,10 +100,6 @@ export const post = async (url, request, headers = null, specific) => {
 	return await network.post(url, request, headers, specific)
 }
 
-export const postWithHeader = async (url, request, headers, specific) => {
-	return await network.post(url, request, headers, specific)
-}
-
 export const postWithNoAuth = async (url, request) => {
 	return await post(url, request, null, { noAuth : true })
 }
@@ -117,3 +113,4 @@ export const isAuthenticated = () => {
 	let tokenData = tokenHandlerInstance.getToken()
 	return tokenData?.token != null && tokenData?.expiration > new Date()
 }
+
