@@ -26,10 +26,8 @@ public class PaymentController {
         public double amount;
         public String currency;
         public String description;
-        public String cancelUrl;
-        public String successUrl;
-        public PaymentType paymentType;
-        public PaymentIntent paymentIntent;
+        public String paymentType;
+        public String paymentIntent;
     }
 
     public static class SuccessPayRequest {
@@ -48,8 +46,8 @@ public class PaymentController {
     @PostMapping(value = "/public/pay")
     public ResponseEntity<JsonRespond<String>>pay(@RequestBody PaymentRequest request) throws Exception {
         try {
-            var payment = mService.createPayment(request.amount, request.currency, request.description, request.successUrl,
-                    request.cancelUrl, request.paymentType, request.paymentIntent);
+            var payment = mService.createPayment(request.amount, request.currency, request.description, mSuccessUrl,
+                    mCancelUrl, request.paymentType, request.paymentIntent);
             var link = payment.getLinks().stream().filter(s -> s.getRel().equals("approval_url")).findAny().orElse(null);
             if (link == null) throw new Exception("invalid payment");
             var result = "redirect:" + link.getHref();
