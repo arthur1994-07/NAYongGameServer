@@ -27,7 +27,7 @@ public class PaymentService {
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public Payment createPayment(Double total, String currency, String description,
                                  String successUrl, String cancelUrl,
-                                 PaymentType type, PaymentIntent intent) throws Exception {
+                                 String type, String intent) throws Exception {
         var amount = new Amount();
         amount.setCurrency(currency);
         total = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
@@ -41,16 +41,18 @@ public class PaymentService {
         transactions.add(transaction);
 
         var payer = new Payer();
-        payer.setPaymentMethod(type.name);
+        payer.setPaymentMethod(type);
 
         var payment = new Payment();
-        payment.setIntent(intent.toString());
+        payment.setIntent(intent);
         payment.setPayer(payer);
         payment.setTransactions(transactions);
 
         var redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl(cancelUrl);
         redirectUrls.setReturnUrl(successUrl);
+
+        payment.setRedirectUrls(redirectUrls);
 
         return payment.create(mContext);
     }
