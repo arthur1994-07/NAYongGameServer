@@ -1,6 +1,6 @@
 <template>
 	<q-dialog v-model="dialog" :full-height="fullHeight ?? false" :full-width="fullWidth ?? false">
-		<q-card class="bg-white column no-wrap" :class="cardClass">
+		<q-card class="bg-yellow-2 column no-wrap" :class="cardClass">
 			<q-card-section>
 				<div class="text-h6 text-primary">{{ title }}</div>
 			</q-card-section>
@@ -9,7 +9,7 @@
 			<q-separator dark />
 
 			<q-card-actions align="right">
-				<q-btn v-close-popup push :label="cancelText" color="white" text-color="primary" />
+				<q-btn v-close-popup push :label="cancelText" color="primary" text-color="white" />
 				<q-btn push :label="successText" color="primary" :disable="!successAllow" @click="acceptAction" />
 			</q-card-actions>
 		</q-card>
