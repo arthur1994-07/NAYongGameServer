@@ -50,7 +50,7 @@ public class PaymentController {
                     mCancelUrl, request.paymentType, request.paymentIntent);
             var link = payment.getLinks().stream().filter(s -> s.getRel().equals("approval_url")).findAny().orElse(null);
             if (link == null) throw new Exception("invalid payment");
-            var result = "redirect:" + link.getHref();
+            var result = link.getHref();
             return ResponseEntity.ok(new JsonRespond<>(result));
         } catch(Exception ex) {
             Log.e(ex.getMessage());

@@ -8,11 +8,16 @@
 
 <script>
 import { defineComponent, onMounted } from "vue";
+import userService from "../script/services/UserService.js"
 
 export default defineComponent ({
 	setup() {
 
-		onMounted(() => console.log("Ranking page"))
+		onMounted(async () => {
+			console.log("Ranking page")
+			const users = await userService.list()
+			console.log(users)
+		})
 	}
 })
 </script>

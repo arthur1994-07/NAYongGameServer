@@ -6,31 +6,24 @@
 			</q-card-section>
 		</template>
 	</two-button-dialog>
-	<selection-dialog ref="gamePointsDialog" :selectMultiple="false"
-		title="payment method" successText="select" cancelText="cancel"
-	>
+	<selection-radio-dialog ref="gamePointsDialog" :selectMultiple="false" title="payment method">
 		<template v-slot="{data}">
-			<q-item-section avatar>
+			<q-item-section avatar class="text-primary">
 				<q-avatar :color="data.avatarColor" size="md" text-color="primary">
-					<q-icon color="white" name="mdi-wallet-giftcard" />
+					<q-icon color="primary" name="mdi-wallet-giftcard" />
 				</q-avatar>
 			</q-item-section>
-			<q-item-section>
-				<div class="text-white">{{ data.points }}</div>
-			</q-item-section>
 		</template>
-		<template v-slot:no-data>{{ t('general_no_data') }}</template>
-	</selection-dialog>
-	<selection-dialog ref="checkOutDialog" :selectMultiple="false"
-		title="Check Out" successText="select" cancelText="cancel"
-	>
+		<template v-slot:no-data>no data</template>
+	</selection-radio-dialog>
+	<selection-radio-dialog ref="checkOutDialog" :selectMultiple="false" title="Check Out">
 		<template v-slot="{data}">
 			<q-item-section>
-				<q-img :src="data.picUrl" fit="contain" style="height: 100px; max-width: 250px;" />
+				<q-img :src="data.picUrl" fit="contain" style="height: 70px; min-width: 150px;" />
 			</q-item-section>
 		</template>
-		<template v-slot:no-data>{{ t('general_no_data') }}</template>
-	</selection-dialog>
+		<template v-slot:no-data>no data</template>
+	</selection-radio-dialog>
 	<q-page class="q-pa-sm">
 		<q-card class="bg-primary">
 			<q-card-section class="row justify-center">
@@ -48,7 +41,7 @@
 import { defineComponent, onMounted, ref, computed } from "vue";
 import { useStore } from 'vuex'
 import TwoButtonDialog from "../components/TwoButtonDialog.vue";
-import SelectionDialog from "../components/SelectionDialog.vue";
+import SelectionRadioDialog from "../components/SelectionRadioDialog.vue";
 import PaypalCredentialData from "./components/PaypalCredentialData.vue";
 import paymentService from "../script/services/PaymentService.js"
 import * as PopUpDialog from "../script/utils/PopupDialog.js"
@@ -59,7 +52,7 @@ import * as currency from "../script/enums/currency.js"
 export default defineComponent ({
 	components : {
 		TwoButtonDialog,
-		SelectionDialog,
+		SelectionRadioDialog,
 		PaypalCredentialData
 	}, 
 	setup() {
@@ -91,7 +84,8 @@ export default defineComponent ({
 					paymentType: paymentMethods.selection.name,
 					paymentIntent: "sale"
 				}
-				console.log(result)
+				const url = await paymentService.pay(result)
+				window.open(url, "window", "status=2", 'width=350, height=350')
 
 			} catch(err) {
 				PopUpDialog.show(store, PopUpDialog.FAILURE, err.message)
