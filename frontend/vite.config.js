@@ -18,7 +18,7 @@ export default defineConfig({
 	eslint()
 	],
 	server: {
-		port: 6060
+		port: 5050
 	},
 	resolve: {
 		alias: {

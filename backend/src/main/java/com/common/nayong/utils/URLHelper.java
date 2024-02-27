@@ -12,7 +12,7 @@ public class URLHelper {
         StringBuffer url = new StringBuffer();
         url.append(scheme).append("://").append(serverName);
 
-        if ((serverPort != 6666) && (serverPort != 443)) {
+        if ((serverPort != 5555) && (serverPort != 443)) {
             url.append(":").append(serverPort);
         }
         url.append(contextPath);

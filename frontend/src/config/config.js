@@ -5,7 +5,7 @@ let prefix_base = import.meta.env.VITE_BASE_URL == null ? null : import.meta.env
 
 const hostname = window.location.hostname
 const httpType = window.location.protocol
-const port = production ? (httpType == "http:" ? 6666 : 8443) : 6666
+const port = production ? (httpType == "http:" ? 5555 : 8443) : 5555
 
 let config = {
 	$api_url: `${httpType}//${hostname}:${port}`,
