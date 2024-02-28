@@ -26,6 +26,13 @@ const createNotFoundView = () => ({
 	meta: { bypassAuth: true, }
 })
 
+const createLoginView = () => ({
+	path: "/login",
+	name: "login",
+	component: () => import('../../views/LoginView.vue'),
+	meta: { bypassAuth: true, }
+})
+
 const createPortalView = (groups, children) => ({
 	path: "/",
 	name: "portal",
@@ -84,6 +91,7 @@ const createMarketView = () => ({
 
 const treeItems = [
 	createNotFoundView(),
+	createLoginView(),
 	createPortalView([
 		createLayoutGroup(),
 	], [
