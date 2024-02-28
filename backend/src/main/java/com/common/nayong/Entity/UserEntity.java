@@ -34,5 +34,4 @@ public class UserEntity {
     @Column (name = "UserEmail", columnDefinition = "TEXT", unique = true)
     @NotBlank
     private String userEmail;
-
 }

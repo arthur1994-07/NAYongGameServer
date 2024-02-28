@@ -84,7 +84,7 @@ export default defineComponent({
 		const items = ref([])
 
 		const login = () => {
-			console.log("login")
+			router.push("/login")
 		}
 
 		const navigateTo = (path) => {

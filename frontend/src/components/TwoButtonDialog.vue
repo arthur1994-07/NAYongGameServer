@@ -17,8 +17,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { computed, watch, defineComponent } from 'vue'
+import { ref, computed, watch, defineComponent } from 'vue'
 
 export default defineComponent({
 	props: {
