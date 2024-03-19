@@ -1,9 +1,9 @@
 package com.common.nayong.data;
 
-import com.common.nayong.Entity.UserEntity;
+import com.common.nayong.entity.GSUserEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UserInfo {
+public class GSUserInfo {
     public static class Data {
         @JsonProperty public int UserNum;
         @JsonProperty public String UserId;
@@ -11,7 +11,7 @@ public class UserInfo {
         @JsonProperty public int UserType;
 
         public Data() {}
-        public Data(UserEntity entity) {
+        public Data(GSUserEntity entity) {
             this.UserNum = entity.getUserNum();
             this.UserId = entity.getUserID();
             this.UserEmail = entity.getUserEmail();
