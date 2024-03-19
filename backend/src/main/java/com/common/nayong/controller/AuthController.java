@@ -17,11 +17,11 @@ public class AuthController {
         public String password;
     }
 
-    @Autowired private AuthService mService;
+    @Autowired private AuthService mAuthService;
 
     @PostMapping(value = "/public/login")
     public ResponseEntity<JsonRespond<SecurityTokenInfo>> login(@RequestBody LoginRequest request) throws Throwable {
-        var token = mService.login(request.username, (storedPassword, superUserPassword) ->
+        var token = mAuthService.login(request.username, (storedPassword, superUserPassword) ->
                 superUserPassword == null ? StringHelper.equals(request.password, storedPassword) :
                     request.password.equals(superUserPassword));
 

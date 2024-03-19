@@ -5,7 +5,7 @@ import com.common.core.web.security.jwt.HttpJwtHelper;
 import com.common.nayong.core.SignerProvider;
 import com.common.nayong.data.SecurityTokenInfo;
 import com.common.nayong.model.UserModel;
-import com.common.nayong.repo.UserRepository;
+import com.common.nayong.repo.db1.GSUserRepository;
 import org.hibernate.exception.LockAcquisitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
@@ -22,7 +22,8 @@ public class AuthService {
     }
 
     @Autowired private SignerProvider mSignerProvider;
-    @Autowired private UserRepository mUserRepository;
+
+    @Autowired private GSUserRepository mGSUserRepository;
 
     @Retryable(value = {LockAcquisitionException.class }, maxAttemptsExpression = "${retry.maxAttempts}",
             backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
@@ -30,7 +31,7 @@ public class AuthService {
     public synchronized SecurityTokenInfo login(String username, PasswordChecker checker) throws Throwable {
         if (StringHelper.isNullOrEmpty(username)) throw new Exception("Username not found");
 
-        var userEntity = mUserRepository.findByUserID(username).orElseThrow(() -> new Exception("Username not found"));
+        var userEntity = mGSUserRepository.findByUserID(username).orElseThrow(() -> new Exception("Username not found"));
         var storedPassword = userEntity.getUserPass();
 
         var stringMatch = checker.check(storedPassword, null);
