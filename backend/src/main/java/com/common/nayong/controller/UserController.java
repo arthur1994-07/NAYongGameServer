@@ -1,7 +1,7 @@
 package com.common.nayong.controller;
 
 import com.common.core.web.struct.JsonRespond;
-import com.common.nayong.data.GSUserInfo;
+import com.common.nayong.data.UserInfo;
 import com.common.nayong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,7 @@ public class UserController {
         public String email;
     }
 
-    @Autowired
-    private UserService mService;
+    @Autowired private UserService mService;
 
     @PostMapping(value = "/public/add")
     public ResponseEntity<JsonRespond<Void>> create(@RequestBody CreateRequest request) throws Throwable {
@@ -37,12 +36,12 @@ public class UserController {
     }
 
     @PostMapping(value = "/public/list")
-    public ResponseEntity<JsonRespond<GSUserInfo.Data[]>> list() throws Throwable {
+    public ResponseEntity<JsonRespond<UserInfo.Data[]>> list() throws Throwable {
         return ResponseEntity.ok(new JsonRespond<>(mService.getAll()));
     }
 
     @PostMapping(value = "/public/get")
-    public ResponseEntity<JsonRespond<GSUserInfo.Data>> get(@RequestBody IDRequest request) throws Throwable {
+    public ResponseEntity<JsonRespond<UserInfo.Data>> get(@RequestBody IDRequest request) throws Throwable {
         var data = mService.getById(request.id);
         return ResponseEntity.ok(new JsonRespond<>(data));
     }

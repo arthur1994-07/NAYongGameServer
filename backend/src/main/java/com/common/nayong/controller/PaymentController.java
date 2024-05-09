@@ -2,16 +2,11 @@ package com.common.nayong.controller;
 
 import com.common.core.base.log.Log;
 import com.common.core.web.struct.JsonRespond;
-import com.common.nayong.enumerate.PaymentIntent;
-import com.common.nayong.enumerate.PaymentType;
 import com.common.nayong.service.PaymentService;
-import com.paypal.api.payments.Links;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
