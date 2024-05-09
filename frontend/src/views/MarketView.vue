@@ -24,17 +24,19 @@
 		</template>
 		<template v-slot:no-data>no data</template>
 	</selection-radio-dialog>
-	<q-page class="q-pa-sm">
-		<q-card class="bg-primary">
-			<q-card-section class="row justify-center">
-				<div class="text-white text-h3">Market</div>
-			</q-card-section>
-			<q-separator dark />
-			<q-card-section class="row">
-				<q-btn class="row" glossy color="light-blue-7" @click="createPayment()">Buy Game Points</q-btn>
-			</q-card-section>
-		</q-card>
-	</q-page>
+	<q-page-container style="width: 80pc">
+		<q-page class="q-pa-md items-center">
+			<q-card class="bg-primary">
+				<q-card-section class="row justify-center">
+					<div class="text-white text-h3">Market</div>
+				</q-card-section>
+				<q-separator dark />
+				<q-card-section class="row">
+					<q-btn class="row" glossy color="light-blue-7" @click="createPayment()">Buy Game Points</q-btn>
+				</q-card-section>
+			</q-card>
+		</q-page>
+	</q-page-container>
 </template>
 
 <script>
@@ -121,7 +123,7 @@ export default defineComponent ({
 		}
 
 		onMounted(() => {
-			console.log("")
+			console.log("Market Page")
 		})
 
 		return { credentialDialog, gamePointsDialog, checkOutDialog, selectedItem, paymentList, getToken, testGetToken, createPayment }

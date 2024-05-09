@@ -4,7 +4,7 @@
 			<div>
 				<q-toolbar>
 					<q-toolbar-title class="row">
-						<q-img :src="gameLogo" fit="contain" class="q-ma-sm" style="height: 50x; max-width: 50px;" />
+						<q-img :src="gameLogo" fit="contain" class="q-ma-sm" style="height: 50x; max-width: 50px;" clickable @click="navigateTo()" />
 						<div class="q-ma-xs row items-center text-left">NA Yong</div>
 					</q-toolbar-title>
 					<q-btn push class="q-mx-xs" color="blue" @click="login()">login</q-btn>
@@ -12,15 +12,15 @@
 			</div>
 		</q-header>
 		<q-page-container>
-			<q-page class="home-page window-height window-width row justify-center items-top">
+			<q-page class="row justify-center items-top">
 				<div class="bg-secondary" style="width: 80pc">
 					<q-img :src="gameBanner" fit="contain" class="q-ma-xs" />
 					<q-btn-group push>
 						<q-btn v-for="item in items" :key="item.key" color="brown" @click="navigateTo(item.path)">{{ item.displayText }}</q-btn>
 					</q-btn-group>
-				</div>
-				<div class="col-6 items-start justify-top">
-					<router-view /> 
+					<div class="items-center justify-top">
+						<router-view /> 
+					</div>
 				</div>
 			</q-page>
 		</q-page-container>
@@ -88,6 +88,7 @@ export default defineComponent({
 		}
 
 		const navigateTo = (path) => {
+			if (path == null) router.push("/home")
 			router.push(path).catch(err => {
 				if (err.name != "NavigationDuplicated") throw err
 			})
