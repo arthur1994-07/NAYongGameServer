@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Entity
 @Table(name = "GSUserInfo", schema = "dbo")
-public class GSUserEntity {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "GSUserInfo", sequenceName = "z_gs_userinfo", initialValue = 1, allocationSize = 1)
