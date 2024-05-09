@@ -8,12 +8,13 @@
 
 <script>
 import { defineComponent, onMounted } from "vue";
-import { useStore } from 'vuex'
+import { useStore } from "vuex"
 import userService from "../script/services/UserService.js"
 import * as PopupDialog from '../script/utils/PopupDialog.js'
 
 export default defineComponent ({
 	setup() {
+
 		const store = useStore()
 
 		onMounted(async () => {

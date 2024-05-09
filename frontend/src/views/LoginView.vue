@@ -1,11 +1,9 @@
 <template>
 	<q-layout>
 		<q-page-container>
-			<q-page>
-				<div class="row items-center justify-center" 
-					style="min-height: inherit;"
-				>
-					<q-card class="bg-primary" style="width: 40vw">
+			<q-page class="q-my-xl row items-center justify-center">
+				<div style="min-height: inherit;">
+					<q-card class="bg-primary" style="width: 40pc">
 						<q-card-section class="column">
 							<div class="row items-center">
 								<q-img :src="pic" class="q-ma-xs" fit="contain" style="height: 100x; max-width: 100px" />

@@ -91,7 +91,6 @@ const createMarketView = () => ({
 
 const treeItems = [
 	createNotFoundView(),
-	createLoginView(),
 	createPortalView([
 		createLayoutGroup(),
 	], [
@@ -99,6 +98,7 @@ const treeItems = [
 		createRankingView(),
 		createDownloadView(),
 		createMarketView(),
+		createLoginView(),
 		
 	]),
 ].filter(s => s != null);
