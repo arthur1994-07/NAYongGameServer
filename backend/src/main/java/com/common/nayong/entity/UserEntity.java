@@ -37,6 +37,9 @@ public class UserEntity {
     @NotBlank
     private String userEmail;
 
+    @Column(name = "UserLoginState", columnDefinition = "bigint default 0")
+    private int userLoginState;
+
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "userRole", joinColumns = @JoinColumn(name = "UserNum"), inverseJoinColumns = @JoinColumn(name = "userNum"))
     private final Set<RoleEntity> roles = new HashSet<>();

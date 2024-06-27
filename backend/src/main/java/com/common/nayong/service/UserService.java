@@ -44,16 +44,16 @@ public class UserService {
     @Retryable(value = {LockAcquisitionException.class }, maxAttemptsExpression = "${retry.maxAttempts}",
             backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
     @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
-    public UserInfo.Data[] getAll() {
-        var gsEntities = mUserRepository.findAll();
-        return gsEntities.stream().map(UserInfo.Data::new).toArray(UserInfo.Data[]::new);
+    public UserInfo.Base[] getAll() {
+        var entities = mUserRepository.findAll();
+        return entities.stream().map(UserInfo.Base::new).toArray(UserInfo.Base[]::new);
     }
 
     @Retryable(value = {LockAcquisitionException.class }, maxAttemptsExpression = "${retry.maxAttempts}",
             backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
     @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
-    public UserInfo.Data getById(int id) throws Exception {
+    public UserInfo.Base getById(int id) throws Exception {
         var entity = mUserRepository.findById(id).orElseThrow(() -> new Exception("user account not found"));
-        return new UserInfo.Data(entity);
+        return new UserInfo.Base(entity);
     }
 }

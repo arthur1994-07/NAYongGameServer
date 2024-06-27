@@ -1,6 +1,7 @@
 package com.common.nayong.enumerate;
 
 public enum UserType {
+    anonymous(0 , "anonymous_user"),
     player(1, "player"),
     playerCommand(31, "player_with_command"),
     playerRestrict(30, "player_with_restriction"),
