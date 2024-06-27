@@ -14,14 +14,15 @@
 						class="row full-width"
 					>
 						<q-item v-ripple>
-							<q-radio keep-color
+							<q-radio 
 								v-model="modelOption" 
+								keep-color
 								class="text-primary row full-width" 
 								:val="item" 
 								:label="item.display" 
 								:active="isSelected(data, item, index)"
-								@click="selectItem(data, item, index)"
 								color="primary"
+								@click="selectItem(data, item, index)"
 							/>
 							<slot :data="item" />
 						</q-item>

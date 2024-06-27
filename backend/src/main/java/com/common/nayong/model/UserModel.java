@@ -1,8 +1,11 @@
 package com.common.nayong.model;
 
 import com.common.core.base.helper.JsonHelper;
+import com.common.core.web.permission.PermissionSystem;
 import com.common.core.web.security.base.ClaimsInterface;
 import com.common.nayong.entity.UserEntity;
+import com.common.nayong.enumerate.UserType;
+import com.common.nayong.permission.LicenseRightAnnotation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,11 +18,21 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class UserModel {
-    private final long mId;
+    private static final long K_ANONYMOUS_USER_ID = 0;
+    private static final String K_ANONYMOUS_USERNAME = "Anonymous User";
 
     public static class Identity implements ClaimsInterface {
-        @JsonProperty public String username;
-        @JsonProperty public String email;
+        @JsonProperty private String username;
+        @JsonProperty private String email;
+        @JsonProperty private String idToken;
+        @JsonProperty private int userType;
+        @JsonProperty private int userLoginState;
+
+        public String getUsername() { return username; }
+        public String getEmail() { return email; }
+        public String idToken() { return idToken; }
+        public int getUserType() { return userType; }
+        public int getUserLoginState() { return userLoginState; }
 
         @Override public String key() { return "identity"; }
         @Override public String pack() { return JsonHelper.asString(JsonHelper.toTree(this)); }
@@ -28,6 +41,9 @@ public class UserModel {
             if (data == null) return;
             this.username = data.username;
             this.email = data.email;
+            this.idToken = data.idToken;
+            this.userType = data.userType;
+            this.userLoginState = data.getUserLoginState();
         }
     }
 
@@ -52,7 +68,7 @@ public class UserModel {
             mAuthorities.addAll(newGranted);
         }
     }
-
+    private final long mId;
     private final Authorities mAuthorities = new Authorities();
     private final Identity mIdentity = new Identity();
 
@@ -61,17 +77,37 @@ public class UserModel {
         Arrays.stream(getClaims()).forEach(claimsApply);
     }
 
+    public UserModel(int id, String username, String idToken) {
+        mId = id;
+        mIdentity.username = username;
+        mIdentity.idToken = idToken;
+    }
+    public UserModel(UserEntity entity, String idToken) {
+        this(entity.getUserNum(), entity.getUserID(), idToken);
+    }
+
     public UserModel(UserEntity entity) {
         mId = entity.getUserNum();
         mIdentity.username = entity.getUserID();
         mIdentity.email = entity.getUserEmail();
+        mIdentity.userType = entity.getUserType();
+        mIdentity.userLoginState = entity.getUserLoginState();
     }
 
     public long getId() { return mId; }
     public ClaimsInterface[] getClaims() { return new ClaimsInterface[] { mAuthorities, mIdentity }; }
     public Collection<GrantedAuthority> getAuthorities() { return mAuthorities.getAuthorities(); }
+    public boolean isAnonymous() { return mId == K_ANONYMOUS_USER_ID; }
     public Identity getIdentity() { return mIdentity; }
 
+    public static UserModel anonymousUser(PermissionSystem<LicenseRightAnnotation> system, boolean hasPermission) {
+        var model = new UserModel(K_ANONYMOUS_USER_ID, (c) -> {});
+        model.mIdentity.username = K_ANONYMOUS_USERNAME;
+        List<GrantedAuthority> authorities = hasPermission ? system.getStream().map(s ->
+                (GrantedAuthority) new SimpleGrantedAuthority(s.databaseKey)).toList() : List.of();
+        model.mAuthorities.set(authorities);
+        return model;
+    }
 
     public static UserModel getCurrent() {
         var auth = SecurityContextHolder.getContext().getAuthentication();

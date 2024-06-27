@@ -3,6 +3,7 @@ package com.common.nayong.controller;
 import com.common.core.base.helper.StringHelper;
 import com.common.core.web.struct.JsonRespond;
 import com.common.nayong.data.SecurityTokenInfo;
+import com.common.nayong.model.UserModel;
 import com.common.nayong.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,18 @@ public class AuthController {
                     request.password.equals(superUserPassword));
 
         return ResponseEntity.ok(new JsonRespond<>(token));
+    }
+
+    @PostMapping(value = "/public/anonymous-login")
+    public ResponseEntity<JsonRespond<SecurityTokenInfo>> anonymousLogin() throws Throwable {
+        var token = mAuthService.anonymousLogin();
+        return ResponseEntity.ok(new JsonRespond<>(token));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<JsonRespond<SecurityTokenInfo>> refreshToken() throws Throwable {
+        var authUser = UserModel.getCurrent();
+        if (authUser == null) throw new Error("Token is expired");
+        return ResponseEntity.ok(new JsonRespond<>(mAuthService.refreshToken(authUser)));
     }
 }

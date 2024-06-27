@@ -3,6 +3,7 @@ package com.common.nayong.configuration;
 import com.common.core.web.security.base.CertificateSigner;
 import com.common.core.web.security.jwt.JwtSigner;
 import com.common.core.web.security.misc.KeyPair;
+import com.common.nayong.constants.SignerNameConstant;
 import com.common.nayong.core.AuthenticationTokenFilter;
 import com.common.nayong.core.SignerProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public static AuthenticationTokenFilter getAuthTokenFilter(@Autowired SignerProvider signer) {
+    public static AuthenticationTokenFilter getAuthTokenFilter(
+            @Autowired @Qualifier(SignerNameConstant.authentication) SignerProvider signer) {
         return new AuthenticationTokenFilter(signer);
     }
 

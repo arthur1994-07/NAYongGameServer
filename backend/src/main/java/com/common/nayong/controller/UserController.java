@@ -36,12 +36,12 @@ public class UserController {
     }
 
     @PostMapping(value = "/public/list")
-    public ResponseEntity<JsonRespond<UserInfo.Data[]>> list() throws Throwable {
+    public ResponseEntity<JsonRespond<UserInfo.Base[]>> list() throws Throwable {
         return ResponseEntity.ok(new JsonRespond<>(mService.getAll()));
     }
 
     @PostMapping(value = "/public/get")
-    public ResponseEntity<JsonRespond<UserInfo.Data>> get(@RequestBody IDRequest request) throws Throwable {
+    public ResponseEntity<JsonRespond<UserInfo.Base>> get(@RequestBody IDRequest request) throws Throwable {
         var data = mService.getById(request.id);
         return ResponseEntity.ok(new JsonRespond<>(data));
     }

@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -34,5 +36,12 @@ public class UserEntity {
     @Column(name = "UserEmail", columnDefinition = "TEXT", unique = true)
     @NotBlank
     private String userEmail;
+
+    @Column(name = "UserLoginState", columnDefinition = "bigint default 0")
+    private int userLoginState;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(name = "userRole", joinColumns = @JoinColumn(name = "UserNum"), inverseJoinColumns = @JoinColumn(name = "userNum"))
+    private final Set<RoleEntity> roles = new HashSet<>();
 
 }
