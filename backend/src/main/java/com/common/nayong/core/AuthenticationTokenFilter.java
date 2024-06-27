@@ -47,7 +47,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
                         .filter(s -> key.equals(s.getName())).findFirst().map(Cookie::getValue).orElse(null);
             }
         });
-        if (StringHelper.isNullOrEmpty(token)) return;
+        if (StringHelper.isNullOrEmpty(token) || token.equals("null")) return;
         var uncheckedData = JwtParser.deserialize(token);
 
         if (HttpJwtHelper.K_AUDIENCE.equals(uncheckedData.audience)) {
