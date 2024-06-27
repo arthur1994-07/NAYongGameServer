@@ -33,8 +33,9 @@
 <script>
 'use strict'
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import { localUrl } from "../script/enums/homeRedirectURL.js"
 import * as PopupDialog from '../script/utils/PopupDialog.js'
 import authService from "../script/services/AuthService.js"
 import router from '../script/plugins/vuerouter'
@@ -45,18 +46,32 @@ export default defineComponent({
 		const store = useStore()
 		const username = ref("")
 		const password = ref("")
-		const pic = ref(new URL('../assets/yong-icon.png', import.meta.url).href)
+		const pic = ref(new URL('../assets/game/yong-icon.png', import.meta.url).href)
 
 		const login = async (user, password) => {
 			try {
 				const response = await authService.signIn({ username: user, password: password })
-				if (!response.authenticated) return;
-				router.push("/home")
+				checkAuthentication(response)
 				PopupDialog.show(store, PopupDialog.SUCCESS, "Login successful")
+
+				setInterval(() => window.location.replace(localUrl), 1000)
 			} catch (err) {
 				PopupDialog.show(store, PopupDialog.FAILURE, err.message)
 			}
-		}	
+		}
+		
+		const checkAuthentication = ({authenticated, idToken}) => {
+			store.dispatch("ui/setAutoLogin", false)
+			if (!authenticated) return;
+			router.push("/")
+			store.dispatch("ui/setIdToken", idToken)
+		}
+
+		onMounted(() => {
+			const url = window.sessionStorage.getItem("home-url")
+			console.log(url)
+		})
+
 		return { username, password, pic, login }
 	}
 })

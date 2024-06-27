@@ -35,7 +35,7 @@ const tokenHandler = () => {
 			accessToken = token
 			tokenExpiration = expiration
 		},
-		// refreshAccessToken: async () => await auth.refreshAccessToken(),
+		refreshAccessToken: async () => await auth.refreshAccessToken(),
 	}
 }
 

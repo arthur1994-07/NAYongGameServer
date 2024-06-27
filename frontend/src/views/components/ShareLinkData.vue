@@ -1,26 +1,26 @@
 <template>
-	<meta property="og:url" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:title" content="" />
-    <meta property="og:description" content="" />
-    <meta property="og:image" content="" />
+	<div></div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, toRefs } from "vue";
 
 export default defineComponent({
-    props: {
-        url: { type: String, default : "" },
-        type: { type: any , default : "" },
+	props: {
+		url: { type: String, default : "" },
+		type: { default : "" },
 
-    },
-    emits: [
+	},
+	emits: [
 
-    ],
-    setup() {
-        
-        return { }
-    }
+	],
+	setup(props) {
+		const { url, type } = toRefs(props);
+
+		onMounted(() => console.log(url.value, type.value))
+
+
+		return {  }
+	}
 })
 </script>

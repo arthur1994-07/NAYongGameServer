@@ -7,7 +7,24 @@
 						<q-img :src="gameLogo" fit="contain" class="q-ma-sm" style="height: 50x; max-width: 50px;" clickable @click="navigateTo()" />
 						<div class="q-ma-xs row items-center text-left">NA Yong</div>
 					</q-toolbar-title>
-					<q-btn push class="q-mx-xs" color="blue" @click="login()">login</q-btn>
+					<q-item v-if="!isAnonymous" class="justify-center items-center">
+						<div>Username: {{ currentUser?.UserId }}</div>
+					</q-item>
+					<q-btn-dropdown class="q-mx-md" icon="mdi-share-variant" color="secondary">
+						<q-list>
+							<q-item>
+								<q-item-section v-for="item in socialLinkList" :key="item.key" avatar clickable class="q-ma-xs" @click="shareAction(item)">
+									<q-avatar color="primary" text-color="white" size="50px">
+										<img :src="item.picUrl">
+									</q-avatar>
+									<div class="items-center"> {{ item.name }}</div>
+									<!-- <share-link-data :url="currentUrl" :type="item.name" /> -->
+								</q-item-section>
+							</q-item>
+						</q-list>
+					</q-btn-dropdown>
+					<q-btn v-if="!isAnonymous" push class="q-mx-xs" color="blue" @click="signOut()">logout</q-btn>
+					<q-btn v-if="isAnonymous" push class="q-mx-xs" color="blue" @click="login()">login</q-btn>
 				</q-toolbar>
 			</div>
 		</q-header>
@@ -30,10 +47,17 @@
 <script>
 'use strict'
 
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import { routeList } from "../script/utils/route_tree";
 import { getPathParent } from "../script/core/RouteTree";
+import { socialLinkList } from "../script/enums/socialLink.js";
+import { localUrl } from "../script/enums/homeRedirectURL.js"
+import * as PopupDialog from "../script/utils/PopupDialog.js"
+import authService from "../script/services/AuthService.js";
+import currentUserService from "../script/services/CurrentUserService.js"
+// import ShareLinkData from "../views/components/ShareLinkData.vue"
 
 const constructRenderDataFromItem = (data, subItems) => ({
 	subItems : subItems,
@@ -75,31 +99,76 @@ const constructRouterTree = (route, permissions) => {
 // }
 
 export default defineComponent({
+	// components: {
+	// 	ShareLinkData
+	// },
 	setup() {
+		const store = useStore()
 		const route = useRoute()
 		const router = useRouter()
-		const gameLogo = ref(new URL('../assets/yong-icon.png', import.meta.url).href)
-		const gameBanner = ref(new URL('../assets/banner3.png', import.meta.url).href)
+		const gameLogo = ref(new URL('../assets/game/yong-icon.png', import.meta.url).href)
+		const gameBanner = ref(new URL('../assets/game/banner3.png', import.meta.url).href)
 		const headerColor = ref('defaultMode')
 		const items = ref([])
+		const currentUrl = ref(window.location.href)
+		const currentUser = ref(null)
+		const isAnonymous = computed(() => currentUser.value?.UserId == "Anonymous User" || currentUser.value == null)
 
 		const login = () => {
 			router.push("/login")
 		}
 
-		const navigateTo = (path) => {
-			if (path == null) router.push("/home")
-			router.push(path).catch(err => {
-				if (err.name != "NavigationDuplicated") throw err
-			})
+		const signOut = async () => {
+			authService.signOut()
+			PopupDialog.show(store, PopupDialog.SUCCESS, "successfully logged out")
+			setInterval(() => window.location.replace(localUrl), 1000)
 		}
 
-		onMounted(() => {
+		const navigateTo = (path) => {
+			if (path == null) router.push("/home")
+			router.push(path)
+		}
+
+		onMounted(async () => {
+			currentUser.value = await currentUserService.getProfile()
+			if (currentUser.value == null) anonymousLogin()
+			console.log(currentUser.value)
+
+			// let params = new URLSearchParams(window.location.search)
+			// window.sessionStorage.setItem("user-id", currentUser.value?.UserNum)
+			// const id = window.sessionStorage.getItem("user-id")
+			// console.log(id)
+			// console.log(params)
+		})
+
+		const shareAction = (item) => {
+			const redirect = item.url + window.location.href
+			window.open(redirect, "_blank_")
+		} 
+
+		const checkAuthentication = ({authenticated, idToken}) => {
+			store.dispatch("ui/setAutoLogin", false)
+			if (!authenticated) return;
+			router.push("/")
+			store.dispatch("ui/setIdToken", idToken)
+		}
+
+		const anonymousLogin = async () => {
+			try {
+				const response = await authService.anonymousLogin()
+				checkAuthentication(response)
+			} catch(err) {
+				PopupDialog.show(store, PopupDialog.FAILURE, err.message)
+			}
+		}
+
+		onMounted(async () => {
 			const list = constructRouterTree(route, null)
 			items.value = list.map(s => s.subItems).find(k => k != null)
 		})
 
-		return { gameLogo, gameBanner, headerColor, items, login, navigateTo }
+		return { gameLogo, gameBanner, headerColor, items, socialLinkList, currentUser, currentUrl, isAnonymous,
+			login, signOut, navigateTo, shareAction, anonymousLogin }
 	}
 })
 </script>
