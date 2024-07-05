@@ -132,13 +132,8 @@ export default defineComponent({
 		onMounted(async () => {
 			currentUser.value = await currentUserService.getProfile()
 			if (currentUser.value == null) anonymousLogin()
-			console.log(currentUser.value)
 
-			// let params = new URLSearchParams(window.location.search)
-			// window.sessionStorage.setItem("user-id", currentUser.value?.UserNum)
-			// const id = window.sessionStorage.getItem("user-id")
-			// console.log(id)
-			// console.log(params)
+			window.sessionStorage.setItem("user-id", currentUser.value?.UserNum)	
 		})
 
 		const shareAction = (item) => {

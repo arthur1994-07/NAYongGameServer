@@ -7,6 +7,8 @@
 </template>
 
 <script>
+'use strict'
+
 import { defineComponent, onMounted } from "vue";
 
 export default defineComponent({

@@ -65,6 +65,18 @@ const createRankingView = () => ({
 	}
 })
 
+const createGameInfoView = () => ({
+	path: "gameinfo",
+	name: "gameinfo",
+	component: () => import('../../views/GameInfoView.vue'),
+	meta: {
+		bypassAuth: true,
+		title: "GameInfo",
+		group: _layout,
+		order: 3
+	}
+})
+
 const createDownloadView = () => ({
 	path: "download",
 	name: "download",
@@ -73,7 +85,7 @@ const createDownloadView = () => ({
 		bypassAuth: true,
 		title: "Download",
 		group: _layout,
-		order: 3
+		order: 4
 	}
 })
 
@@ -85,7 +97,7 @@ const createMarketView = () => ({
 		bypassAuth: true,
 		title: "Market",
 		group: _layout,
-		order: 4
+		order: 5
 	}
 })
 
@@ -96,6 +108,7 @@ const treeItems = [
 	], [
 		createHomeView(),
 		createRankingView(),
+		createGameInfoView(),
 		createDownloadView(),
 		createMarketView(),
 		createLoginView(),
