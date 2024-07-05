@@ -1,6 +1,6 @@
 <template>
 	<q-page class="q-pa-sm">
-		<q-card-section>
+		<q-card-section class="row justify-center">
 			<div class="text-white text-h3">Ranking</div>
 		</q-card-section>
 	</q-page>
@@ -27,6 +27,8 @@ export default defineComponent ({
 				PopupDialog.show(store, PopupDialog.FAILURE, err.message)
 			}
 		})
+
+		return {  }
 	}
 })
 </script>

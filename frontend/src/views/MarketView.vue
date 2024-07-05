@@ -40,6 +40,8 @@
 </template>
 
 <script>
+'use strict'
+
 import { defineComponent, onMounted, ref, computed } from "vue";
 import { useStore } from 'vuex'
 import TwoButtonDialog from "../components/TwoButtonDialog.vue";

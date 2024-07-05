@@ -33,7 +33,7 @@ export default defineComponent ({
 
 		const getHtmlContent = () => {
 			console.log("open page")
-			window.open("/htmls/mainx01.html")
+			window.open("/yong_html/mainx01.html")
 		}
 
 		onMounted(() => {

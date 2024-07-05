@@ -6,6 +6,8 @@
 	</q-page></template>
 
 <script>
+'use strict'
+
 import { defineComponent } from "vue";
 
 export default defineComponent ({
