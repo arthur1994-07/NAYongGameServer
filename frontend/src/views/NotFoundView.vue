@@ -3,7 +3,8 @@
 		<q-card-section>
 			<div class="text-white text-h3">Not Found</div>
 		</q-card-section>
-	</q-page></template>
+	</q-page>
+</template>
 
 <script>
 'use strict'

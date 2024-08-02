@@ -53,7 +53,7 @@ import { useStore } from 'vuex'
 import { routeList } from "../script/utils/route_tree";
 import { getPathParent } from "../script/core/RouteTree";
 import { socialLinkList } from "../script/enums/socialLink.js";
-import { localUrl } from "../script/enums/homeRedirectURL.js"
+import { localUrl } from "../script/constants/homeRedirectURL.js"
 import * as PopupDialog from "../script/utils/PopupDialog.js"
 import authService from "../script/services/AuthService.js";
 import currentUserService from "../script/services/CurrentUserService.js"
@@ -131,8 +131,6 @@ export default defineComponent({
 
 		onMounted(async () => {
 			currentUser.value = await currentUserService.getProfile()
-			if (currentUser.value == null) anonymousLogin()
-
 			window.sessionStorage.setItem("user-id", currentUser.value?.UserNum)	
 		})
 
@@ -141,29 +139,13 @@ export default defineComponent({
 			window.open(redirect, "_blank_")
 		} 
 
-		const checkAuthentication = ({authenticated, idToken}) => {
-			store.dispatch("ui/setAutoLogin", false)
-			if (!authenticated) return;
-			router.push("/")
-			store.dispatch("ui/setIdToken", idToken)
-		}
-
-		const anonymousLogin = async () => {
-			try {
-				const response = await authService.anonymousLogin()
-				checkAuthentication(response)
-			} catch(err) {
-				PopupDialog.show(store, PopupDialog.FAILURE, err.message)
-			}
-		}
-
 		onMounted(async () => {
 			const list = constructRouterTree(route, null)
 			items.value = list.map(s => s.subItems).find(k => k != null)
 		})
 
 		return { gameLogo, gameBanner, headerColor, items, socialLinkList, currentUser, currentUrl, isAnonymous,
-			login, signOut, navigateTo, shareAction, anonymousLogin }
+			login, signOut, navigateTo, shareAction }
 	}
 })
 </script>

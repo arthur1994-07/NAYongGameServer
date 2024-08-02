@@ -23,24 +23,24 @@ public class UserController {
 
     @Autowired private UserService mService;
 
-    @PostMapping(value = "/public/add")
+    @PostMapping(value = "/add")
     public ResponseEntity<JsonRespond<Void>> create(@RequestBody CreateRequest request) throws Throwable {
         mService.create(request.username, request.password, request.email);
         return ResponseEntity.ok(new JsonRespond<>(null));
     }
 
-    @PostMapping(value = "/public/delete")
+    @PostMapping(value = "/delete")
     public ResponseEntity<JsonRespond<Void>> remove(@RequestBody IDRequest request) throws Throwable {
         mService.remove(request.id);
         return ResponseEntity.ok(new JsonRespond<>(null));
     }
 
-    @PostMapping(value = "/public/list")
+    @PostMapping(value = "/list")
     public ResponseEntity<JsonRespond<UserInfo.Base[]>> list() throws Throwable {
         return ResponseEntity.ok(new JsonRespond<>(mService.getAll()));
     }
 
-    @PostMapping(value = "/public/get")
+    @PostMapping(value = "/get")
     public ResponseEntity<JsonRespond<UserInfo.Base>> get(@RequestBody IDRequest request) throws Throwable {
         var data = mService.getById(request.id);
         return ResponseEntity.ok(new JsonRespond<>(data));

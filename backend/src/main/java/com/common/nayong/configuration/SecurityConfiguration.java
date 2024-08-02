@@ -49,24 +49,24 @@ public class SecurityConfiguration {
         return new AuthenticationTokenFilter(signer);
     }
 
-    @Bean
-    public static SignerProvider authSigner() {
-        return new SignerProvider() {
-            private CertificateSigner mSigner;
-            {
-                var method = JwtSigner.Type.RSA384;
-                try(var privateKey = getClass().getResourceAsStream("/key/private_key.pem")) {
-                    try(var publicKey = getClass().getResourceAsStream("/key/public_key.pem")){
-                        var key = KeyPair.readFrom(privateKey, publicKey, method.factory);
-                        if (key != null) mSigner = new JwtSigner(key, method);
-                    }
-                } catch (IOException ignored) {}
-            }
-
-            @Override public CertificateSigner getWriteSigner() { return mSigner; }
-            @Override public CertificateSigner[] getReadSigners() { return new CertificateSigner[] { mSigner }; }
-            @Override public Duration getExpirationPeriod() { return Duration.ofSeconds(0); }
-        };
-    }
+//    @Bean
+//    public static SignerProvider authSigner() {
+//        return new SignerProvider() {
+//            private CertificateSigner mSigner;
+//            {
+//                var method = JwtSigner.Type.RSA384;
+//                try(var privateKey = getClass().getResourceAsStream("/key/private_key.pem")) {
+//                    try(var publicKey = getClass().getResourceAsStream("/key/public_key.pem")){
+//                        var key = KeyPair.readFrom(privateKey, publicKey, method.factory);
+//                        if (key != null) mSigner = new JwtSigner(key, method);
+//                    }
+//                } catch (IOException ignored) {}
+//            }
+//
+//            @Override public CertificateSigner getWriteSigner() { return mSigner; }
+//            @Override public CertificateSigner[] getReadSigners() { return new CertificateSigner[] { mSigner }; }
+//            @Override public Duration getExpirationPeriod() { return Duration.ofSeconds(0); }
+//        };
+//    }
 
 }
