@@ -35,7 +35,7 @@ const tokenHandler = () => {
 			accessToken = token
 			tokenExpiration = expiration
 		},
-		refreshAccessToken: async () => await auth.refreshAccessToken(),
+		// refreshAccessToken: async () => await auth.refreshAccessToken(),
 	}
 }
 
@@ -73,7 +73,7 @@ const networkModule = (url, tokenHandler) => {
 			}
 	
 			if (headers == null) headers = {}
-			if (!specific?.noAuth && tokenData?.token != null) {
+			if (!specific?.noAuth && tokenData?.token != null && tokenData?.token != 'null') {
 				headers.Authorization = `Bearer ${tokenData.token}`
 			}
 	
@@ -113,4 +113,3 @@ export const isAuthenticated = () => {
 	let tokenData = tokenHandlerInstance.getToken()
 	return tokenData?.token != null && tokenData?.expiration > new Date()
 }
-

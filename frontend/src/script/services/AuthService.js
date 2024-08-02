@@ -1,6 +1,6 @@
 'use strict'
 
-import { post, postWithNoAuth, setToken, isAuthenticated } from "../utils/network.js"
+import { postWithNoAuth, setToken, isAuthenticated } from "../utils/network.js"
 
 const _baseUrl = "/auth"
 const _publicUrl = "/public"
@@ -29,20 +29,9 @@ const anonymousLogin = async () => {
 	}
 }
 
-const refreshAccessToken = async () => {
-	const response = await post(_baseUrl + '/refresh-token', {}, null, { noRefresh: true })
-	const data = response.data.data
-	if (data.accessToken != null) {
-		setToken(data.accessToken, data.expiration)
-	}
-}
-
-
-
 export default {
 	authenticated: () => isAuthenticated(),
 	anonymousLogin: anonymousLogin,
 	signOut: () => setToken(null, null),
 	signIn: userpasswordSignIn,
-	refreshAccessToken: refreshAccessToken,
 }
